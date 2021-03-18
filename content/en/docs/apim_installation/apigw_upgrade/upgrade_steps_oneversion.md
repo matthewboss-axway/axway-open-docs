@@ -25,7 +25,7 @@ You must perform the following procedures to update from API Gateway One Version
 
 ## Back up customized files
 
-Ensure to back up any customized files from your `INSTALL_DIR` directory, and when you are restoring these files, ensure that you merge any updated files instead of copying them back directly to avoid any regex matching issues.
+Before updating your product, ensure to back up any customized files from your `INSTALL_DIR` directory.
 
 The following is a list of directories that might contain customized files:
 
@@ -38,6 +38,8 @@ system/conf
 samples/scripts/
 tools/filebeat-VERSION-PLATFORM
 ```
+
+When you are restoring the files, ensure that you merge any updated files instead of copying them back directly, to avoid any regex matching issues.
 
 ## Install an API Gateway server update
 
@@ -65,8 +67,8 @@ Fixes are only applied if they have not previously been applied.
 To install the update on your existing API Gateway 7.7 server installation, perform the following steps:
 
 1. Ensure that your existing API Gateway instance and Node Manager have been stopped.
-2. Remove any previous patches from your `INSTALL_DIR/ext/lib` and `INSTALL_DIR/META-INF` directories (or the `ext/lib` directory in an API Gateway instance). These patches have already been included in this update. You do not need to copy patches from a previous version.
-3. If you have used `setcap` to grant API Gateway permission to use privileged ports (see [Allow the API Gateway to listen on privileged ports](#allow-the-api-gateway-to-listen-on-privileged-ports), below), remove these permissions now (since they might prevent files from being overwritten).
+2. Remove any previous patches from your `INSTALL_DIR/ext/lib` and `INSTALL_DIR/META-INF` directories (or the `ext/lib` directory in an API Gateway instance). All patches have already been included in API Gateway One Version, so you do not need to copy patches from a previous version.
+3. If you have used `setcap` to grant API Gateway permission to use privileged ports (see, [Allow the API Gateway to listen on privileged ports](#allow-the-api-gateway-to-listen-on-privileged-ports)), remove these permissions now because thy might prevent files from being overwritten.
 
    ```
    setcap -r INSTALL_DIR/apigateway/platform/bin/vshell
@@ -80,7 +82,7 @@ To install the update on your existing API Gateway 7.7 server installation, perf
    ```
 
    {{< alert title="Note" color="primary" >}}You must extract the file into a new directory, and not into the existing API Gateway installation directory.{{< /alert >}}
-5. Run the [`update_apigw.sh`](#update-apigw-sh-script)  script from the directory into which you extracted the update file (for example, `77update`) and specify your API Gateway installation directory using the `--install_dir` option. For example:
+5. Run the `update_apigw.sh` script from the directory into which you extracted the update file (for example, `77update`) and specify your API Gateway installation directory using the `--install_dir` option. For example:
 
    ```
    ./update_apigw.sh --install_dir /opt/Axway-7.7/
@@ -227,11 +229,11 @@ To install the update on your existing API Gateway Analytics 7.7 installation, p
    apigw_analytics_sp_post_install.sh
    ```
 
-## Allow the API Gateway to listen on privileged ports
+## Allow API Gateway to listen on privileged ports
 
-Privileged ports are those below 1024. If API Gateway runs as a non-root user, these are the steps you must perform to grant the required privileges to API Gateway processes to use privileged ports.
+If you are running API Gateway as a non-root user, you must perform the following steps to grant the required privileges to API Gateway processes to use privileged ports, ports below `1024`.
 
-These steps are not required if API Gateway only needs to use ports numbered 1024 and above.
+These steps are not required if API Gateway only needs to use ports numbered `1024` and above.
 
 After updating your installation, perform the following steps:
 
@@ -241,7 +243,7 @@ After updating your installation, perform the following steps:
    <VMArg name="-Djava.library.path=$VDISTDIR/$DISTRIBUTION/jre/lib/amd64/server:$VDISTDIR/$DISTRIBUTION/jre/lib/amd64:$VDISTDIR/$DISTRIBUTION/lib/engines:$VDISTDIR/ext/$DISTRIBUTIONlib:$VDISTDIR/ext/lib:$VDISTDIR/$DISTRIBUTION/jre/lib:system/lib:$VDISTDIR/$DISTRIBUTION/lib"/>
    ```
 
-2. Allow the API Gateway to listen on privileged ports:
+2. Allow API Gateway to listen on privileged ports:
 
    ```
    setcap 'cap_net_bind_service=+ep cap_sys_rawio=+ep' INSTALL_DIR/platform/bin/vshell
