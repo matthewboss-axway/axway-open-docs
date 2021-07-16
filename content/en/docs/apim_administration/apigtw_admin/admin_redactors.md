@@ -98,7 +98,7 @@ To enable redaction for an API Gateway instance, perform the following steps:
       <include file="$VINSTDIR/conf/redaction.xml"/>
    </NetService>
    ```
-   **Important:** Ensure the added line is the last in the series, as shown here, or the configuration will not be correct.
+   Ensure the added line is the last in the series, as shown in this example.
 
 7. Restart the API Gateway instance.
 
